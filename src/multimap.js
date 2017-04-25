@@ -91,6 +91,8 @@ jvm.MultiMap.prototype = {
         focusPromise = currentMap.setFocus({region: code, animate: true}),
         downloadPromise = this.downloadMap(code);
 
+    customSettings = this.params.subMapsOptions || {};
+
     focusPromise.then(function(){
       if (downloadPromise.state() === 'pending') {
         that.spinner.show();
@@ -103,7 +105,7 @@ jvm.MultiMap.prototype = {
     this.drillDownPromise.then(function(){
       currentMap.params.container.hide();
       if (!that.maps[name]) {
-        that.addMap(name, {map: name, multiMapLevel: currentMap.params.multiMapLevel + 1});
+        that.addMap(name, $.extend({ map: name, multiMapLevel: currentMap.params.multiMapLevel + 1 }, customSettings));
       } else {
         that.maps[name].params.container.show();
       }
